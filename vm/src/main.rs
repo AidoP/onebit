@@ -17,10 +17,15 @@ fn main() {
     let config = Config::build(Environment::Production)
         .port(std::env::var("PORT").unwrap_or("8000".to_string()).parse().unwrap())
         .finalize().unwrap();
-    rocket::custom(config).mount("/", routes![request, default_request]).launch();
+    rocket::custom(config).mount("/", routes![index, request, default_request]).launch();
 }
 
-#[get("/?<byte>&<bit>&<input>")]
+#[get("/", rank = 2)]
+fn index() -> &'static str {
+    include_str!("../../readme.md")
+}
+
+#[get("/?<byte>&<bit>&<input>", rank = 0)]
 fn request(byte: usize, bit: usize, input: String) -> Result<Vec<u8>, RequestError> {
     use memory::Memory;
     let mut mmu = Memory::new(input.as_bytes());
@@ -54,7 +59,7 @@ fn request(byte: usize, bit: usize, input: String) -> Result<Vec<u8>, RequestErr
     }
 }
 
-#[get("/?<input>", rank = 0)]
+#[get("/?<input>", rank = 1)]
 fn default_request(input: String) -> Result<Vec<u8>, RequestError> {
     use memory::Memory;
     let mut mmu = Memory::new(input.as_bytes());
