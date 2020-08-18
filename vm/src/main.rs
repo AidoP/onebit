@@ -11,7 +11,7 @@ use rysk_core::{Core, Register32, Xlen};
 
 mod memory;
 
-const PATH: &str = "../program/target/encode.bin";
+const PATH: &str = "/usr/share/encode.bin";
 
 fn main() {
     let config = Config::build(Environment::Production)
