@@ -1,0 +1,12 @@
+#!/bin/bash
+
+mkdir target
+
+# Assemble
+llvm-mc --triple=riscv32 --assemble --filetype=obj encode.S -o target/encode.elf
+
+# Ensure the sections are in the correct places and absolute addresses are correct
+ld.lld link.ld target/encode.elf -o target/encode.elf
+
+# Copy to raw binary
+llvm-objcopy -O binary target/encode.elf target/encode.bin
