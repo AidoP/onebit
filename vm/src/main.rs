@@ -5,7 +5,7 @@ const RESPONSE_TIME: std::time::Duration = std::time::Duration::from_secs(3);
 
 #[macro_use]
 extern crate rocket;
-use rocket::{request::Request, response::{self,Response,Responder}};
+use rocket::{config::{Config, Environment}, request::Request, response::{self,Response,Responder}};
 
 use rysk_core::{Core, Register32, Xlen};
 
@@ -14,7 +14,10 @@ mod memory;
 const PATH: &str = "../program/target/encode.bin";
 
 fn main() {
-    rocket::ignite().mount("/", routes![request, default_request]).launch();
+    let config = Config::build(Environment::Production)
+        .port(std::env::var("PORT").unwrap_or("8000".to_string()).parse().unwrap())
+        .finalize().unwrap();
+    rocket::custom(config).mount("/", routes![request, default_request]).launch();
 }
 
 #[get("/?<byte>&<bit>&<input>")]
