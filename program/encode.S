@@ -106,4 +106,4 @@ strcmp:
 _err_msg:
 	.asciz " is an invalid code!"
 _ok_msg:
-	.asciz "Code accepted! Secret is: FlagXXXX"
+	.asciz "Code accepted! Secret is: pecan{dad896bb27d8349a8258d8340f078281}"

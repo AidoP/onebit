@@ -18,12 +18,18 @@ To use the laser and interact with the satellite, make a get request for `/?byte
 curl "<address>:8000/?byte=133&bit=7&input=CodeWeCantGuess"
 ```
 
-You can also check the default response by leaving out the `byte` and `bit` paramters.
+You can also check the default response by leaving out the `byte` and `bit` parameters.
+
+The byte and bit provided should be provided from the start of the `.text` section of the program (ie. word 0 is the first instruction executed).
 
 Students should be provided with `encode.elf` for reverse engineering which contains a placeholder flag.
 
 # Building
+### Running Instance
+An already running CI instance is provided at `onebit-ctf.herokuapp.com`. The machine powers off after a while so give it a some time to reboot after you first try to connect.
+
 ### Dependencies
 To build, `llvm` and `lld` are required. Rust nightly is required for the virtual machine.
 
+### Compiling
 The RISCV program is built by executing `cd program && ./build` then the virtual machine can be built and run with cargo using `cd ../vm && cargo run`. The `vm` directory may need to be set to Rust nightly with rustup using `rustup override set nightly` while in the directory.
